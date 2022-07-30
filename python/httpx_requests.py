@@ -21,7 +21,7 @@ async def fetch_pokemon():
 
 
 now = time.time()
-data = asyncio.run(fetch_pokemon())
+async_pokemon = asyncio.run(fetch_pokemon())
 print("Time consumed Async: {} seconds".format(time.time() - now))
 
 
@@ -30,6 +30,7 @@ def get_requests_sync(number):
     response = httpx.get(BASE_URL.format(number))
     return response
 
+
 now = time.time()
 pokemons = []
 for i in range(1, 152, 1):
@@ -37,13 +38,12 @@ for i in range(1, 152, 1):
     pokemons.append(response.json()["species"]["name"])
 print("Time consumed Sync: {} seconds".format(time.time() - now))
 
-print(data)
-print(pokemons)
+assert async_pokemon == pokemons
 
 # Output
 """
 Time consumed Async: 1.383061170578003 seconds
 Time consumed sync: 19.607528924942017 seconds
 
-Obvious the async request is 19 times faster.
+Obviously the async request is 19 times faster.
 """
